@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Ujian Pemprograman Internet 2</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" rel="home" href="#">Ujian Internet 3</a>
+	</div>
+
+	<div class="collapse navbar-collapse">
+
+		<ul class="nav navbar-nav">
+			<li><a href="#">Diky</a></li>
+			<li><a href="#">Arga</a></li>
+			<li><a href="#">Anggara</a></li>
+		</ul>
+
+	</div>
+
+</div>
+</div>
+
+<div class="container">
+
+  <div class="form" style="margin-top: 50px;">
+
+	<div class="form">
+	  <div class="form-group">
+	    <label for="inputEmail3">Inputan Transaksi</label>
+	    <div class="">
+	      <input type="text" class="form-control" id="transaksi" placeholder="Input Transaksi">
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <div>
+	      <button id="tambah" type="submit" class="btn btn-default">Tambahkan</button>
+	    </div>
+	  </div>
+	</div>
+
+  </div>
+
+  <div class="row">
+  	<table id="table_trans" class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Barang</th>
+				<th>Harga</th>
+				<th>Jumlah</th>
+				<th>Total Harga</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3"><input id="totalBayar" type="button" value="Total Pembelian" class="btn btn-success" /></td>
+				<td id="area_total"></td>
+			</tr>
+		</tfoot>
+	</table>
+	<br/>
+	<a href="index.html" type="button" class="btn btn-primary btn-lg btn-block">Balik ke Soal 1</a
+  </div>
+
+</div><!-- /.container -->
+	<!-- script references -->
+		<script src="js/jquery.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+		$(document).ready(function(){
+			// Fungsi menambahkan dari form ke tabel
+			  $.fn.addTransaction = function(){
+					// Menampung value dari input form
+					var tampung = $("#transaksi").val();
+					// Memecah value berdasarakan ";" sesuai contoh
+					var nilai = tampung.split(';');
+					// Memasukan nilai dari Array nilai ke variable sesuai namanya
+					var namaBarang = nilai[0];
+					var hargaBarang = parseFloat(nilai[1]); // memparsing agar menjadi Float bukan text (menanggulangi jika ada spasi)
+					var jumlahBeli = parseFloat(nilai[2]);
+					var jumlahSubTotal = hargaBarang * jumlahBeli; // mengalikan jumlah barang dengan harga untuk mencari total
+					// meng-append dari inputan ke tabel
+					$('#table_trans > tbody:first').append('<tr><td>' + namaBarang +'</td><td>' + hargaBarang + '</td><td>' + jumlahBeli + '</td><td class="jumlahSub">' + jumlahSubTotal + '</td></tr>');
+
+				}
+				// Fungsi manggil addTransaction ketika tombol dengan id=tambah di klik
+				$("#tambah").click(function(){
+						$.fn.addTransaction();
+				});
+				// Fungsi untuk mengkalkulasi semua subtotal dimasukin ke grandtotal
+				$.fn.sumTransaction = function(){
+						var sum = 0; // deklarasi variable sum dengan nilai 0
+						$('.jumlahSub').each(function() { // mengeksekusi setiap elemen ber-class .jumlahSub
+            	sum += parseInt($(this).text()); // kemudian mengiterasinya
+    				});
+						$("#area_total").html(sum); // Menampilkanya di td dengan id:area_total
+						console.log(sum); // for debugging
+				}
+				// Memanggil fungsi sumTransaction(): saat tombol total pembelian di klik
+				$("#totalBayar").click(function(){
+						$.fn.sumTransaction();
+				});
+		});
+		</script>
+	</body>
+</html>
